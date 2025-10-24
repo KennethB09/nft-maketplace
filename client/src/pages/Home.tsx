@@ -1,57 +1,23 @@
-import {
-  Box,
-  Button,
-  Container,
-  Dialog,
-  Flex,
-  Heading,
-  Text,
-} from "@radix-ui/themes";
-import { useDisconnectWallet } from "@mysten/dapp-kit";
-import Mint from "../components/Mint";
+import { Box, Dialog, Flex, Heading, Text } from "@radix-ui/themes";
 import { useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
 import { useEffect, useState } from "react";
 import type { SuiEvent } from "@mysten/sui/client";
-import EditDescription from "../components/EditDescription";
 import { useCurrentAccount } from "@mysten/dapp-kit";
-
-type listing = {
-  listing_id: string;
-  nft_id: string;
-  seller: string;
-  price: number;
-};
-
-type Tcontent = {
-  dataType: string;
-  fields: {
-    description: string;
-    name: string;
-    url: string;
-  };
-};
-
-type data = {
-  digest: string;
-  objectId: string;
-  type: string;
-  version: string;
-  content: Tcontent;
-};
-
-type nftsData = {
-  data: data;
-};
+import type { listing, data, nftsData } from "../types/data";
+import Header from "../components/Header";
+import NFTInfo from "../components/NFTInfo";
 
 export default function Home() {
-  const { mutate: disconnect } = useDisconnectWallet();
   const account = useCurrentAccount();
   const packageId = useNetworkVariable("packageId");
   const suiClient = useSuiClient();
+
   const [removedListing, setRemoveListing] = useState<listing[] | []>([]);
   const [addedListings, setAddedListings] = useState<listing[] | []>([]);
   const [userNFTs, setUserNFTs] = useState<nftsData[] | []>([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selected, setSelected] = useState<null | data>(null);
 
   let listings: listing[] = addedListings.filter(
     (nft) =>
@@ -127,41 +93,26 @@ export default function Home() {
     }
   }, [packageId, suiClient]);
 
-  // console.log(userNFTs.map(n => n.data.objectId))
+  function onClickItem(data?: data) {
+    if (dialogOpen) {
+      setDialogOpen(prev => !prev);
+      setSelected(null);
+      return 
+    }
+
+    if (data) {
+      setSelected(data);
+      setDialogOpen(prev => !prev);
+    }
+    return
+  }
 
   return (
     <Box>
-      <Flex
-        position="sticky"
-        px="4"
-        py="2"
-        justify="between"
-        style={{
-          borderBottom: "1px solid var(--gray-a2)",
-        }}
-      >
-        <Box>
-          <Heading>Home</Heading>
-        </Box>
-
-        <Box>
-          <Button onClick={() => disconnect()}>Disconnect Wallet</Button>
-        </Box>
-      </Flex>
-      <Flex style={{ padding: 12, gap: 10 }}>
-        <Dialog.Root>
-          <Dialog.Trigger>
-            <Button>Mint NFT</Button>
-          </Dialog.Trigger>
-          <Mint />
-        </Dialog.Root>
-        <Dialog.Root>
-          <Dialog.Trigger>
-            <Button>Edit NFT</Button>
-          </Dialog.Trigger>
-          <EditDescription />
-        </Dialog.Root>
-      </Flex>
+      <Dialog.Root open={dialogOpen}>
+        {selected && <NFTInfo data={selected} close={onClickItem}/>}
+      </Dialog.Root>
+      <Header />
       <Box px="4" py="2">
         <Heading>Your NFTs</Heading>
         <Flex wrap={"wrap"} width={"100%"} style={{ paddingTop: 4, gap: 5 }}>
@@ -173,13 +124,18 @@ export default function Home() {
                 borderRadius: 8,
                 width: "12rem",
                 height: "15rem",
-                overflow: "hidden"
+                overflow: "hidden",
               }}
+              onClick={() => onClickItem(nft.data)}
             >
               <Box height={"65%"} overflow={"hidden"}>
                 <img
                   src={nft.data.content.fields.url}
-                  style={{ width: "100%", height: "auto", objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    objectFit: "cover",
+                  }}
                 />
               </Box>
               <Flex direction={"column"} p={"2"}>
@@ -192,6 +148,7 @@ export default function Home() {
           ))}
         </Flex>
       </Box>
+      
       <Box px="4" py="2">
         <Heading>Listed NFTs</Heading>
         <Box style={{ paddingTop: 4 }}>

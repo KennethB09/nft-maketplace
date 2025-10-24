@@ -2,10 +2,8 @@ import {
   Flex,
   Dialog,
   Text,
-  TextField,
   Button,
   TextArea,
-  Container,
   Badge,
 } from "@radix-ui/themes";
 import { useState } from "react";
@@ -14,11 +12,14 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
 
-export default function EditDescription() {
+type EditDescriptionProps = {
+  objectId: string;
+}
+
+export default function EditDescription({ objectId }: EditDescriptionProps) {
   const packageId = useNetworkVariable("packageId");
   const suiClient = useSuiClient();
 
-  const [nftId, setNftId] = useState("");
   const [nftDes, setNftDes] = useState("");
   const [status, setStatus] = useState("");
 
@@ -34,7 +35,7 @@ export default function EditDescription() {
     tx.moveCall({
       target: `${packageId}::nft_marketplace::update_nft_description`,
       arguments: [
-        tx.object(nftId),
+        tx.object(objectId),
         tx.pure.string(nftDes),
       ],
     });
@@ -52,7 +53,6 @@ export default function EditDescription() {
             },
           });
           setStatus(effects?.status.status!);
-          setNftId("");
           setNftDes("");
         },
       },
@@ -64,34 +64,26 @@ export default function EditDescription() {
       <Dialog.Title>Edit NFT Description</Dialog.Title>
       <Dialog.Description hidden>Edit a NFT Description.</Dialog.Description>
 
-      <Flex direction="column" gap="3">
-        <label>
-          <Text as="div" size="2" mb="1" weight="bold">
-            NFT Object ID
-          </Text>
-          <TextField.Root
-            placeholder="NFT name"
-            onChange={(e) => setNftId(e.target.value)}
-          />
-        </label>
+      <Flex direction="column" gap="3" mb={"2"}>
         <label>
           <Text as="div" size="2" mb="1" weight="bold">
             New Description
           </Text>
           <TextArea
             placeholder="NFT Description"
+            value={nftDes}
             onChange={(e) => setNftDes(e.target.value)}
           />
         </label>
       </Flex>
 
       {status && isSuccess && (
-        <Container>
+        <Flex direction={"column"} gap={"2"}>
           <Text>
             Status: <Badge color="green">{status}</Badge>
           </Text>
           <Text>Description Updated Successfully</Text>
-        </Container>
+        </Flex>
       )}
 
       <Flex gap="3" mt="4" justify="end">
@@ -101,7 +93,6 @@ export default function EditDescription() {
           </Button>
         </Dialog.Close>
         <Button
-          size="3"
           onClick={() => {
             edit();
           }}

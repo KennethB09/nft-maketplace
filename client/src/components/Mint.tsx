@@ -115,7 +115,6 @@ export default function Mint({}: MintProp) {
           </Button>
         </Dialog.Close>
         <Button
-          size="3"
           onClick={() => {
             mint();
           }}

@@ -8,7 +8,7 @@ function App() {
   const currentAccount = useCurrentAccount();
   return (
     <Routes>
-      <Route path="home" element={currentAccount ? <Home /> : <Navigate to={"/link-wallet"}/>}/>
+      <Route path="home" element={currentAccount ? <Home /> : <Navigate to={"/link-wallet"}/>} />
       <Route path="link-wallet" element={!currentAccount ? <LinkWallet /> : <Navigate to={"/Home"}/>} />
       <Route path="*" element={currentAccount ? <Home /> : <Navigate to={"/link-wallet"}/>}/>
     </Routes>
