@@ -1,38 +1,17 @@
-import { ConnectButton } from "@mysten/dapp-kit";
-import { Box, Container, Flex, Heading } from "@radix-ui/themes";
-import { WalletStatus } from "./WalletStatus";
+import { Routes, Route, Navigate } from "react-router";
+import { useCurrentAccount } from "@mysten/dapp-kit";
+
+import Home from "./pages/Home";
+import LinkWallet from "./pages/LinkWallet";
 
 function App() {
+  const currentAccount = useCurrentAccount();
   return (
-    <>
-      <Flex
-        position="sticky"
-        px="4"
-        py="2"
-        justify="between"
-        style={{
-          borderBottom: "1px solid var(--gray-a2)",
-        }}
-      >
-        <Box>
-          <Heading>dApp Starter Template</Heading>
-        </Box>
-
-        <Box>
-          <ConnectButton />
-        </Box>
-      </Flex>
-      <Container>
-        <Container
-          mt="5"
-          pt="2"
-          px="4"
-          style={{ background: "var(--gray-a2)", minHeight: 500 }}
-        >
-          <WalletStatus />
-        </Container>
-      </Container>
-    </>
+    <Routes>
+      <Route path="home" element={currentAccount ? <Home /> : <Navigate to={"/link-wallet"}/>} />
+      <Route path="link-wallet" element={!currentAccount ? <LinkWallet /> : <Navigate to={"/Home"}/>} />
+      <Route path="*" element={currentAccount ? <Home /> : <Navigate to={"/link-wallet"}/>}/>
+    </Routes>
   );
 }
 
