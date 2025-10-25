@@ -1,7 +1,7 @@
 {
   "nft_marketplace": {
     "fileFormatVersion": 6,
-    "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+    "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
     "name": "nft_marketplace",
     "friends": [],
     "structs": {
@@ -137,6 +137,7 @@
       "Listing": {
         "abilities": {
           "abilities": [
+            "Store",
             "Key"
           ]
         },
@@ -154,12 +155,12 @@
             }
           },
           {
-            "name": "nft_id",
+            "name": "nft",
             "type": {
               "Struct": {
-                "address": "0x2",
-                "module": "object",
-                "name": "ID",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
+                "module": "nft_marketplace",
+                "name": "DevNetNFT",
                 "typeArguments": []
               }
             }
@@ -306,7 +307,7 @@
         "parameters": [
           {
             "Struct": {
-              "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
               "module": "nft_marketplace",
               "name": "DevNetNFT",
               "typeArguments": []
@@ -322,7 +323,7 @@
         "parameters": [
           {
             "Struct": {
-              "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
               "module": "nft_marketplace",
               "name": "DevNetNFT",
               "typeArguments": []
@@ -338,7 +339,7 @@
         "parameters": [
           {
             "Struct": {
-              "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
               "module": "nft_marketplace",
               "name": "Listing",
               "typeArguments": []
@@ -364,7 +365,7 @@
           {
             "MutableReference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "Marketplace",
                 "typeArguments": []
@@ -391,7 +392,7 @@
         "parameters": [
           {
             "Struct": {
-              "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
               "module": "nft_marketplace",
               "name": "Listing",
               "typeArguments": []
@@ -417,7 +418,7 @@
         "parameters": [
           {
             "Struct": {
-              "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
               "module": "nft_marketplace",
               "name": "Listing",
               "typeArguments": []
@@ -444,7 +445,7 @@
           {
             "Reference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "DevNetNFT",
                 "typeArguments": []
@@ -472,7 +473,7 @@
         "parameters": [
           {
             "Struct": {
-              "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
               "module": "nft_marketplace",
               "name": "DevNetNFT",
               "typeArguments": []
@@ -499,7 +500,7 @@
         "parameters": [
           {
             "Struct": {
-              "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
               "module": "nft_marketplace",
               "name": "DevNetNFT",
               "typeArguments": []
@@ -527,7 +528,7 @@
           {
             "Reference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "Listing",
                 "typeArguments": []
@@ -554,7 +555,7 @@
           {
             "Reference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "Listing",
                 "typeArguments": []
@@ -581,7 +582,7 @@
           {
             "Reference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "Listing",
                 "typeArguments": []
@@ -601,7 +602,7 @@
           {
             "Reference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "Listing",
                 "typeArguments": []
@@ -621,7 +622,7 @@
           {
             "Reference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "Marketplace",
                 "typeArguments": []
@@ -661,7 +662,7 @@
         "return": [
           {
             "Struct": {
-              "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
               "module": "nft_marketplace",
               "name": "DevNetNFT",
               "typeArguments": []
@@ -704,7 +705,7 @@
           {
             "Reference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "DevNetNFT",
                 "typeArguments": []
@@ -733,7 +734,7 @@
           {
             "Reference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "DevNetNFT",
                 "typeArguments": []
@@ -759,7 +760,7 @@
         "parameters": [
           {
             "Struct": {
-              "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
               "module": "nft_marketplace",
               "name": "Listing",
               "typeArguments": []
@@ -785,7 +786,7 @@
           {
             "MutableReference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "Marketplace",
                 "typeArguments": []
@@ -840,7 +841,7 @@
           {
             "MutableReference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "DevNetNFT",
                 "typeArguments": []
@@ -861,7 +862,7 @@
           {
             "MutableReference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "DevNetNFT",
                 "typeArguments": []
@@ -882,7 +883,7 @@
           {
             "Reference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "DevNetNFT",
                 "typeArguments": []
@@ -911,7 +912,7 @@
           {
             "MutableReference": {
               "Struct": {
-                "address": "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+                "address": "0x3af9f9a1defc733de45a4d008296208cd242963ed5edd2ffbffa46ed5913220f",
                 "module": "nft_marketplace",
                 "name": "Marketplace",
                 "typeArguments": []
