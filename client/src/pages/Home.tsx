@@ -31,7 +31,7 @@ export default function Home() {
         filter: {
           MoveModule: {
             package:
-              "0x5760c8a0597227e9442c5be3b8d1ff4b8327e1c79acb0dd7afec08bcf4cc233b",
+              `${import.meta.env.VITE_TEST_NET_OBJECT_ID}`,
             module: "nft_marketplace",
           },
         },
