@@ -3,11 +3,11 @@ import { Transaction } from "@mysten/sui/transactions";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
 
-type CancelListingProps = {
+type BurnNFTProps = {
   objectId: string;
 };
 
-export default function CancelListing({ objectId }: CancelListingProps) {
+export default function BurnNFT({ objectId }: BurnNFTProps) {
   const suiClient = useSuiClient();
   const packageId = useNetworkVariable("packageId");
   const {
@@ -16,11 +16,11 @@ export default function CancelListing({ objectId }: CancelListingProps) {
     isPending,
   } = useSignAndExecuteTransaction();
 
-  async function delist() {
+  function burnNFT() {
     const tx = new Transaction();
 
     tx.moveCall({
-      target: `${packageId}::nft_marketplace::cancel_listing`,
+      target: `${packageId}::nft_marketplace::burn_nft`,
       arguments: [tx.object(objectId)],
     });
 
@@ -45,13 +45,13 @@ export default function CancelListing({ objectId }: CancelListingProps) {
     <AlertDialog.Root>
       <AlertDialog.Trigger>
         <Button variant="outline" color="red">
-          Unlist NFT
+          Burn NFT
         </Button>
       </AlertDialog.Trigger>
       <AlertDialog.Content maxWidth="450px">
-        <AlertDialog.Title>Unlist NFT</AlertDialog.Title>
+        <AlertDialog.Title>Burn NFT</AlertDialog.Title>
         <AlertDialog.Description size="2">
-          Are you sure you want to unlist this NFT?
+          Are you sure? This NFT will be deleted permanently.
         </AlertDialog.Description>
 
         <Flex gap="3" mt="4" justify="end">
@@ -61,8 +61,8 @@ export default function CancelListing({ objectId }: CancelListingProps) {
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button onClick={delist} variant="solid" color="red">
-              Unlist
+            <Button onClick={burnNFT} variant="solid" color="red">
+              Burn
             </Button>
           </AlertDialog.Action>
         </Flex>

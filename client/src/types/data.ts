@@ -25,3 +25,5 @@ export type data = {
 export type nftsData = {
   data: data;
 };
+
+export type listedNFTs = listing & data;
