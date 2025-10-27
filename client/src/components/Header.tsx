@@ -1,6 +1,7 @@
 import { Flex, Box, Heading, Button, Dialog } from "@radix-ui/themes";
 import { useDisconnectWallet } from "@mysten/dapp-kit";
 import Mint from "../components/Mint";
+import WithdrawFees from "./WithdrawFees";
 
 export default function Header() {
   const { mutate: disconnect } = useDisconnectWallet();
@@ -26,6 +27,8 @@ export default function Header() {
           <Mint />
         </Dialog.Root>
       </Box>
+
+      <WithdrawFees />
 
       <Box>
         <Button variant="surface" onClick={() => disconnect()}>

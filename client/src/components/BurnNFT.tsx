@@ -2,6 +2,7 @@ import { AlertDialog, Button, Flex } from "@radix-ui/themes";
 import { Transaction } from "@mysten/sui/transactions";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
+import ClipLoader from "react-spinners/ClipLoader";
 
 type BurnNFTProps = {
   objectId: string;
@@ -61,8 +62,13 @@ export default function BurnNFT({ objectId }: BurnNFTProps) {
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button onClick={burnNFT} variant="solid" color="red">
-              Burn
+            <Button
+              variant="solid"
+              color="red"
+              onClick={burnNFT}
+              disabled={isPending}
+            >
+              {isPending ? <ClipLoader size={20} /> : "Burn"}
             </Button>
           </AlertDialog.Action>
         </Flex>

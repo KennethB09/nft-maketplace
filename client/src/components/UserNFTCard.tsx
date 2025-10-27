@@ -1,18 +1,15 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
-import { data } from "../types/data";
+import { nftData } from "../types/data";
 
-type ListedCardProps = {
-  listingData: data;
-  onClickItem: (param: data) => void;
+type UserNFTCardProps = {
+  nftData: nftData;
+  onClickItem: (param: nftData) => void;
 };
 
-export default function ListedCard({
-  listingData,
-  onClickItem,
-}: ListedCardProps) {
+export default function UserNFTCard({ nftData, onClickItem }: UserNFTCardProps) {
   return (
     <Box
-      key={listingData.objectId}
+      key={nftData.objectId}
       style={{
         border: "2px solid var(--gray-a2)",
         borderRadius: 8,
@@ -20,11 +17,11 @@ export default function ListedCard({
         height: "15rem",
         overflow: "hidden",
       }}
-      onClick={() => onClickItem(listingData)}
+      onClick={() => onClickItem(nftData)}
     >
       <Box height={"65%"} overflow={"hidden"}>
         <img
-          src={listingData.content.fields.nft.fields.url}
+          src={nftData.content.fields.url}
           style={{
             width: "100%",
             height: "auto",
@@ -34,10 +31,10 @@ export default function ListedCard({
       </Box>
       <Flex direction={"column"} p={"2"}>
         <Text style={{ fontWeight: "600" }}>
-          {listingData.content.fields.nft.fields.name}
+          {nftData.content.fields.name}
         </Text>
         <Text size={"1"}>
-          {listingData.content.fields.nft.fields.description}
+          {nftData.content.fields.description}
         </Text>
       </Flex>
     </Box>

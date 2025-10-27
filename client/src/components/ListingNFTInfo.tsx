@@ -1,28 +1,20 @@
 import { Box, Text, Flex, Dialog, Button } from "@radix-ui/themes";
 
-import type { listedNFTs } from "../types/data";
+import type { data } from "../types/data";
 
-import EditDescription from "../components/EditDescription";
-import BurnNFT from "./BurnNFT";
-import ListNFT from "./ListNFT";
 import CancelListing from "./CancelListing";
 
-import { useCurrentAccount } from "@mysten/dapp-kit";
 import { Transaction } from "@mysten/sui/transactions";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
 
-type NFTInfoProps = {
-  data: listedNFTs;
-  close: () => void;
+type ListingNFTInfoProps = {
+  data: data;
+  close: (type: "userNFT" | "listingNFT") => void;
 };
 
-export default function NFTInfo({ data, close }: NFTInfoProps) {
-  const account = useCurrentAccount();
+export default function ListingNFTInfo({ data, close }: ListingNFTInfoProps) {
   const suiClient = useSuiClient();
-  const userBalance = suiClient.getBalance({
-    owner: account?.address!
-  });
   const packageId = useNetworkVariable("packageId");
   const {
     mutate: signAndExecute,
@@ -33,9 +25,15 @@ export default function NFTInfo({ data, close }: NFTInfoProps) {
   async function buyNFT() {
     const tx = new Transaction();
 
+    const [coin] = tx.splitCoins(tx.gas, [tx.pure.u64(data.content.fields.price)]);
+
     tx.moveCall({
       target: `${packageId}::nft_marketplace::buy_nft`,
-      arguments: [tx.object(data.listing_id), tx.object((await userBalance).totalBalance), tx.pure.string(`${import.meta.env.VITE_MARKETPLACE_OBJECT_ID}`)],
+      arguments: [
+        tx.object(data.objectId),
+        coin,
+        tx.object(import.meta.env.VITE_MARKETPLACE_OBJECT_ID),
+      ],
     });
 
     signAndExecute(
@@ -60,7 +58,7 @@ export default function NFTInfo({ data, close }: NFTInfoProps) {
       <Flex gap={"2"}>
         <Box overflow={"hidden"} width={"50%"}>
           <img
-            src={data.content.fields.url}
+            src={data.content.fields.nft.fields.url}
             style={{ objectFit: "cover" }}
             width={"100%"}
           />
@@ -69,37 +67,25 @@ export default function NFTInfo({ data, close }: NFTInfoProps) {
         <Flex direction={"column"} width={"100%"} p={"3"} gap={"2"}>
           <Flex direction={"row"} justify={"between"}>
             <Dialog.Title>Description</Dialog.Title>
-            <Button variant="ghost" onClick={close}>
+            <Button variant="ghost" onClick={() => close("listingNFT")}>
               X
             </Button>
           </Flex>
 
-          {!data.listing_id ? (
-            <Flex gap={"2"}>
-              <ListNFT objectId={data.objectId} />
-
-              <EditDescription objectId={data.objectId} />
-
-              <BurnNFT objectId={data.objectId} />
-            </Flex>
-          ) : (
-            data.seller === account!.address && (
-              <CancelListing objectId={data.objectId} />
-            )
-          )}
+          <Flex gap={"2"}>
+            <CancelListing objectId={data.objectId} />
+          </Flex>
 
           <Flex direction={"column"}>
             <Text style={{ fontSize: "24px", fontWeight: "bold" }}>
-              {data.content.fields.name}
+              {data.content.fields.nft.fields.name}
             </Text>
-            <Text>{data.content.fields.description}</Text>
+            <Text>{data.content.fields.nft.fields.description}</Text>
           </Flex>
 
-          {data.listing_id && (
-            <Box onClick={buyNFT}>
-              <Button style={{ width: "100%" }}>Buy NFT</Button>
-            </Box>
-          )}
+          <Box onClick={buyNFT}>
+            <Button style={{ width: "100%" }}>Buy NFT</Button>
+          </Box>
         </Flex>
       </Flex>
     </Dialog.Content>
