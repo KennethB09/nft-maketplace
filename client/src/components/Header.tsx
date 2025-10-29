@@ -1,39 +1,36 @@
 import { Flex, Box, Heading, Button, Dialog } from "@radix-ui/themes";
-import { useDisconnectWallet } from "@mysten/dapp-kit";
 import Mint from "../components/Mint";
 import WithdrawFees from "./WithdrawFees";
+import { ConnectButton } from "@mysten/dapp-kit";
 
 export default function Header() {
-  const { mutate: disconnect } = useDisconnectWallet();
   return (
     <Flex
       position="sticky"
       px="4"
       py="2"
       justify="between"
+      align={"center"}
       style={{
-        borderBottom: "1px solid var(--gray-a2)",
+        borderBottom: "2px solid var(--gray-a2)",
       }}
     >
       <Box>
         <Heading>NFT Marketplace</Heading>
       </Box>
 
-      <Box>
+      <Flex gap={"4"} align={"center"}>
         <Dialog.Root>
           <Dialog.Trigger>
             <Button>Mint NFT</Button>
           </Dialog.Trigger>
           <Mint />
         </Dialog.Root>
-      </Box>
-
-      <WithdrawFees />
+        <WithdrawFees />
+      </Flex>
 
       <Box>
-        <Button variant="surface" onClick={() => disconnect()}>
-          Disconnect Wallet
-        </Button>
+        <ConnectButton />
       </Box>
     </Flex>
   );

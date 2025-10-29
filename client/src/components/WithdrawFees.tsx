@@ -1,13 +1,46 @@
-import { Dialog, Flex, TextField, Button, Text, Badge } from "@radix-ui/themes";
+import {
+  Dialog,
+  Flex,
+  TextField,
+  Button,
+  Text,
+  Badge,
+  Box,
+} from "@radix-ui/themes";
 import { Transaction } from "@mysten/sui/transactions";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useCurrentAccount } from "@mysten/dapp-kit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+type Tmarketplace = {
+  data: {
+    content: {
+      dataType: string;
+      fields: {
+        balance: string;
+        id: {
+          id: string;
+        };
+        type: string;
+        hasPublicTransfer: boolean;
+      };
+    };
+    digest: string;
+    objectId: string;
+    version: string;
+  };
+};
 
 export default function WithdrawFees() {
   const wallet = useCurrentAccount();
+
+  const [marketplaceBal, setMarketplaceBal] = useState<Tmarketplace | null>(
+    null,
+  );
+  const [loading, setLoading] = useState(false);
+
   const [amount, setAmount] = useState("");
   const [status, setStatus] = useState("");
 
@@ -19,6 +52,23 @@ export default function WithdrawFees() {
     isPending,
   } = useSignAndExecuteTransaction();
 
+  useEffect(() => {
+    async function getMarketplaceBalance() {
+      setLoading(true);
+      const response: any = await suiClient.getObject({
+        id: import.meta.env.VITE_MARKETPLACE_OBJECT_ID,
+        options: {
+          showContent: true,
+        },
+      });
+
+      setLoading(false);
+      setMarketplaceBal(response as Tmarketplace);
+    }
+
+    getMarketplaceBalance();
+  }, []);
+
   function withdraw() {
     const tx = new Transaction();
 
@@ -27,7 +77,7 @@ export default function WithdrawFees() {
       arguments: [
         tx.object(import.meta.env.VITE_MARKETPLACE_OBJECT_ID),
         tx.pure.u64(amount),
-        tx.pure.address(wallet?.address!)
+        tx.pure.address(wallet?.address!),
       ],
     });
 
@@ -52,23 +102,51 @@ export default function WithdrawFees() {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Flex>
-            Withdraw
+        <Flex
+        align={"center"}
+          gap={"2"}
+          style={{
+            border: "2px solid var(--gray-a2)",
+            height: "min-content",
+            borderRadius: "10px"
+          }}
+          width={"200px"}
+          maxWidth={"200px"}
+        >
+          <Button variant="surface">Withdraw</Button>
+          <Box height={"100%"} width={"100%"} pr={"2"}>
+            <Flex justify={"center"} width={"100%"}>
+              {loading ? (
+                <ClipLoader size={20} color="#fff" />
+              ) : (
+                <Flex gap={"2"}>
+                  <Text>{marketplaceBal?.data.content.fields.balance}</Text>
+                  <Text style={{
+                    fontWeight: "bold"
+                  }}>Mist</Text>
+                </Flex>
+              )}
+            </Flex>
+          </Box>
         </Flex>
       </Dialog.Trigger>
-      <Dialog.Content>
+      <Dialog.Content width={"400px"}>
         <Dialog.Title>Withdraw NFT Fees</Dialog.Title>
-        <Dialog.Description hidden>Withdraw NFT Fees</Dialog.Description>
+        <Dialog.Description>
+          Withdraw earned marketplace fees.<br />
+          Note: 1,000,000,000 = 1 Sui
+        </Dialog.Description>
 
-        <Flex direction="column" gap="3" mb={"2"}>
+        <Flex direction="column" my={"4"}>
           <label>
-            <Text as="div" size="2" mb="1" weight="regular">
-            Withdraw Amount
-          </Text>
-          <TextField.Root
-            placeholder="Amount to withdraw"
-            onChange={(e) => setAmount(e.target.value)}
-          />
+            <Text as="div" size="2" mb="2" weight="bold">
+              Withdraw Amount
+            </Text>
+            <TextField.Root
+              placeholder="Amount to withdraw"
+              onChange={(e) => setAmount(e.target.value)}
+              disabled={isPending}
+            />
           </label>
         </Flex>
 
@@ -87,10 +165,7 @@ export default function WithdrawFees() {
               Cancel
             </Button>
           </Dialog.Close>
-          <Button
-            onClick={withdraw}
-            disabled={isPending}
-          >
+          <Button onClick={withdraw} disabled={isPending}>
             {isPending ? <ClipLoader size={20} /> : "Withdraw"}
           </Button>
         </Flex>
