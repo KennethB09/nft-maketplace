@@ -13,6 +13,7 @@ import { Transaction } from "@mysten/sui/transactions";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
+import { toast } from 'sonner';
 
 type MintProp = {};
 
@@ -59,6 +60,7 @@ export default function Mint({}: MintProp) {
           setNftName("")
           setNftDes("");
           setNftUrl("");
+          toast.success("NFT minted successfuly.")
         },
       },
     );
@@ -76,7 +78,10 @@ export default function Mint({}: MintProp) {
           </Text>
           <TextField.Root
             placeholder="NFT name"
+            value={nftName}
             onChange={(e) => setNftName(e.target.value)}
+            disabled={isPending}
+            required
           />
         </label>
         <label>
@@ -85,7 +90,10 @@ export default function Mint({}: MintProp) {
           </Text>
           <TextArea
             placeholder="NFT Description"
+            value={nftDes}
             onChange={(e) => setNftDes(e.target.value)}
+            disabled={isPending}
+            required
           />
         </label>
         <label>
@@ -94,13 +102,16 @@ export default function Mint({}: MintProp) {
           </Text>
           <TextField.Root
             placeholder="Image URL"
+            value={nftUrl}
             onChange={(e) => setNftUrl(e.target.value)}
+            disabled={isPending}
+            required
           />
         </label>
       </Flex>
 
       {objectCreated && isSuccess && (
-        <Container>
+        <Container mt={"4"}>
           <Text>
             Status: <Badge color="green">Success</Badge>
           </Text>

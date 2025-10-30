@@ -12,8 +12,8 @@ type UserNFTInfoProps = {
 export default function UserNFTInfo({ data, close }: UserNFTInfoProps) {
   // console.log("usernft", data)
   return (
-    <Dialog.Content maxWidth="450px" style={{ padding: "0" }}>
-      <Flex gap={"2"}>
+    <Dialog.Content maxWidth="550px" style={{ padding: "0" }}>
+      <Flex>
         <Box overflow={"hidden"} width={"50%"}>
           <img
             src={data.content.fields.url}
@@ -22,15 +22,29 @@ export default function UserNFTInfo({ data, close }: UserNFTInfoProps) {
           />
         </Box>
 
-        <Flex direction={"column"} width={"100%"} p={"3"} gap={"2"}>
-          <Flex direction={"row"} justify={"between"}>
-            <Dialog.Title>Description</Dialog.Title>
+        <Flex
+          direction={"column"}
+          width={"50%"}
+          gap={"2"}
+          style={{
+            borderLeft: "2px solid var(--gray-a2)",
+          }}
+        >
+          <Flex
+            direction={"row"}
+            justify={"between"}
+            p={"3"}
+            style={{
+              borderBottom: "2px solid var(--gray-a2)",
+            }}
+          >
+            <Dialog.Title mb={"0"}>Description</Dialog.Title>
             <Button variant="ghost" onClick={() => close("userNFT")}>
               X
             </Button>
           </Flex>
 
-          <Flex gap={"2"}>
+          <Flex gap={"1"} px={"3"} justify={"end"}>
             <ListNFT objectId={data.objectId} />
 
             <EditDescription objectId={data.objectId} />
@@ -38,7 +52,7 @@ export default function UserNFTInfo({ data, close }: UserNFTInfoProps) {
             <BurnNFT objectId={data.objectId} />
           </Flex>
 
-          <Flex direction={"column"}>
+          <Flex direction={"column"} px={"3"}>
             <Text style={{ fontSize: "24px", fontWeight: "bold" }}>
               {data.content.fields.name}
             </Text>

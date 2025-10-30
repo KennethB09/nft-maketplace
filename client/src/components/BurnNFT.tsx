@@ -1,14 +1,17 @@
-import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import { AlertDialog, Button, Flex, Text, Badge } from "@radix-ui/themes";
 import { Transaction } from "@mysten/sui/transactions";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
 import ClipLoader from "react-spinners/ClipLoader";
+import { toast } from "sonner";
+import { useState } from "react";
 
 type BurnNFTProps = {
   objectId: string;
 };
 
 export default function BurnNFT({ objectId }: BurnNFTProps) {
+  const [status, setStatus] = useState("");
   const suiClient = useSuiClient();
   const packageId = useNetworkVariable("packageId");
   const {
@@ -37,6 +40,8 @@ export default function BurnNFT({ objectId }: BurnNFTProps) {
               showEffects: true,
             },
           });
+          setStatus(effects?.status.status!);
+          toast.success("NFT burned successfuly.");
         },
       },
     );
@@ -54,6 +59,15 @@ export default function BurnNFT({ objectId }: BurnNFTProps) {
         <AlertDialog.Description size="2">
           Are you sure? This NFT will be deleted permanently.
         </AlertDialog.Description>
+
+        {status && isSuccess && (
+          <Flex direction={"column"} gap={"2"}>
+            <Text>
+              Status: <Badge color="green">{status}</Badge>
+            </Text>
+            <Text>NFT burned successfuly.</Text>
+          </Flex>
+        )}
 
         <Flex gap="3" mt="4" justify="end">
           <AlertDialog.Cancel>

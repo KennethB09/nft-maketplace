@@ -23,6 +23,7 @@ import ListingNFTInfo from "../components/ListingNFTInfo";
 import ListedCard from "../components/ListingCard";
 import UserNFTCard from "../components/UserNFTCard";
 import UserNFTInfo from "../components/UserNFTInfo";
+import { Toaster } from 'sonner';
 
 type tabs = "your-nfts" | "your-listings" | "marketplace";
 
@@ -157,6 +158,8 @@ export default function Home() {
 
   return (
     <Flex gap={"4"} direction={"column"} height={"100vh"}>
+      <Toaster richColors/>
+
       <Header />
 
       <SegmentedControl.Root
@@ -234,7 +237,7 @@ export default function Home() {
           if (!open) setSelected(null);
         }}
       >
-        {selected && <ListingNFTInfo data={selected} close={onClickItem} />}
+        {selected && <ListingNFTInfo data={selected} close={onClickItem}/>}
 
         {activeTab === "your-listings" && (
           <Box px="4" py="2" height={"100%"}>

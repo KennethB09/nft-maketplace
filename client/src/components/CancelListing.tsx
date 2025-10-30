@@ -1,13 +1,17 @@
-import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import { AlertDialog, Button, Flex, Badge, Text } from "@radix-ui/themes";
 import { Transaction } from "@mysten/sui/transactions";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
+import ClipLoader from "react-spinners/ClipLoader";
+import { toast } from "sonner";
+import { useState } from "react";
 
 type CancelListingProps = {
   objectId: string;
 };
 
 export default function CancelListing({ objectId }: CancelListingProps) {
+  const [status, setStatus] = useState("");
   const suiClient = useSuiClient();
   const packageId = useNetworkVariable("packageId");
   const {
@@ -36,6 +40,8 @@ export default function CancelListing({ objectId }: CancelListingProps) {
               showEffects: true,
             },
           });
+          setStatus(effects?.status.status!);
+          toast.success("NFT unlisted successfuly.");
         },
       },
     );
@@ -54,6 +60,15 @@ export default function CancelListing({ objectId }: CancelListingProps) {
           Are you sure you want to unlist this NFT?
         </AlertDialog.Description>
 
+        {status && isSuccess && (
+          <Flex direction={"column"} gap={"2"} mt={"4"}>
+            <Text>
+              Status: <Badge color="green">{status}</Badge>
+            </Text>
+            <Text>NFT unlisted successfuly.</Text>
+          </Flex>
+        )}
+
         <Flex gap="3" mt="4" justify="end">
           <AlertDialog.Cancel>
             <Button variant="soft" color="gray">
@@ -61,8 +76,13 @@ export default function CancelListing({ objectId }: CancelListingProps) {
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button onClick={delist} variant="solid" color="red">
-              Unlist
+            <Button
+              onClick={delist}
+              disabled={isPending}
+              variant="solid"
+              color="red"
+            >
+              {isPending ? <ClipLoader size={20} /> : "Unlist"}
             </Button>
           </AlertDialog.Action>
         </Flex>

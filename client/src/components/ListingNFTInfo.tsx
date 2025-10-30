@@ -7,6 +7,9 @@ import CancelListing from "./CancelListing";
 import { Transaction } from "@mysten/sui/transactions";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
+import { toast } from "sonner";
+import { useCurrentAccount } from "@mysten/dapp-kit";
+import ListedInfo from "./ListedInfo";
 
 type ListingNFTInfoProps = {
   data: data;
@@ -14,6 +17,7 @@ type ListingNFTInfoProps = {
 };
 
 export default function ListingNFTInfo({ data, close }: ListingNFTInfoProps) {
+  const user = useCurrentAccount();
   const suiClient = useSuiClient();
   const packageId = useNetworkVariable("packageId");
   const {
@@ -25,7 +29,9 @@ export default function ListingNFTInfo({ data, close }: ListingNFTInfoProps) {
   async function buyNFT() {
     const tx = new Transaction();
 
-    const [coin] = tx.splitCoins(tx.gas, [tx.pure.u64(data.content.fields.price)]);
+    const [coin] = tx.splitCoins(tx.gas, [
+      tx.pure.u64(data.content.fields.price),
+    ]);
 
     tx.moveCall({
       target: `${packageId}::nft_marketplace::buy_nft`,
@@ -48,13 +54,14 @@ export default function ListingNFTInfo({ data, close }: ListingNFTInfoProps) {
               showEffects: true,
             },
           });
+          toast.success("You successfully bought this NFT.");
         },
       },
     );
   }
 
   return (
-    <Dialog.Content maxWidth="450px" style={{ padding: "0" }}>
+    <Dialog.Content maxWidth="550px" style={{ padding: "0" }}>
       <Flex gap={"2"}>
         <Box overflow={"hidden"} width={"50%"}>
           <img
@@ -64,28 +71,49 @@ export default function ListingNFTInfo({ data, close }: ListingNFTInfoProps) {
           />
         </Box>
 
-        <Flex direction={"column"} width={"100%"} p={"3"} gap={"2"}>
-          <Flex direction={"row"} justify={"between"}>
-            <Dialog.Title>Description</Dialog.Title>
+        <Flex
+          direction={"column"}
+          width={"50%"}
+          gap={"2"}
+          style={{
+            borderLeft: "2px solid var(--gray-a2)",
+          }}
+        >
+          <Flex
+            direction={"row"}
+            justify={"between"}
+            p={"3"}
+            style={{
+              borderBottom: "2px solid var(--gray-a2)",
+            }}
+          >
+            <Dialog.Title mb={"0"}>Description</Dialog.Title>
             <Button variant="ghost" onClick={() => close("listingNFT")}>
               X
             </Button>
           </Flex>
 
-          <Flex gap={"2"}>
-            <CancelListing objectId={data.objectId} />
-          </Flex>
+          {user?.address === data.content.fields.seller && (
+            <Flex gap={"2"} mx={"3"}>
+              <CancelListing objectId={data.objectId} />
+            </Flex>
+          )}
 
-          <Flex direction={"column"}>
+          <Flex direction={"column"} px={"3"} gap={"3"}>
             <Text style={{ fontSize: "24px", fontWeight: "bold" }}>
               {data.content.fields.nft.fields.name}
             </Text>
             <Text>{data.content.fields.nft.fields.description}</Text>
+            <ListedInfo content={data.content} />
           </Flex>
 
-          <Box onClick={buyNFT}>
-            <Button style={{ width: "100%" }}>Buy NFT</Button>
-          </Box>
+          {user?.address !== data.content.fields.seller && (
+            <Box px={"3"} mt={"auto"} mb={"3"}>
+              <Button onClick={buyNFT} disabled={isPending} style={{ width: "100%" }}>
+                Buy NFT
+              </Button>
+            </Box>
+          )}
         </Flex>
       </Flex>
     </Dialog.Content>

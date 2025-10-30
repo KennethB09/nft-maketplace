@@ -13,6 +13,7 @@ import { useNetworkVariable } from "../utils/networkConfig";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useCurrentAccount } from "@mysten/dapp-kit";
 import { useEffect, useState } from "react";
+import { toast } from 'sonner';
 
 type Tmarketplace = {
   data: {
@@ -95,6 +96,7 @@ export default function WithdrawFees() {
           });
           setStatus(effects?.status.status!);
           setAmount("");
+          toast.success("Withdaw Success.")
         },
       },
     );
@@ -151,7 +153,7 @@ export default function WithdrawFees() {
         </Flex>
 
         {status && isSuccess && (
-          <Flex direction={"column"} gap={"2"}>
+          <Flex direction={"column"} gap={"2"} mt={"4"}>
             <Text>
               Status: <Badge color="green">{status}</Badge>
             </Text>

@@ -1,14 +1,10 @@
-import {
-  Flex,
-  Dialog,
-  TextField,
-  Button,
-} from "@radix-ui/themes";
+import { Flex, Dialog, TextField, Button, Badge, Text } from "@radix-ui/themes";
 import { useState } from "react";
 import { Transaction } from "@mysten/sui/transactions";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
+import { toast } from "sonner";
 
 type ListNFTProps = {
   objectId: string;
@@ -19,6 +15,7 @@ export default function ListNFT({ objectId }: ListNFTProps) {
   const suiClient = useSuiClient();
 
   const [price, setPrice] = useState<number>(1000000000);
+  const [status, setStatus] = useState("");
 
   const {
     mutate: signAndExecute,
@@ -46,6 +43,9 @@ export default function ListNFT({ objectId }: ListNFTProps) {
               showEffects: true,
             },
           });
+          setStatus(effects?.status.status!);
+          setPrice(1000000000);
+          toast.success("NFT listed to the marketpalce.");
         },
       },
     );
@@ -56,7 +56,7 @@ export default function ListNFT({ objectId }: ListNFTProps) {
       <Dialog.Trigger>
         <Button variant="outline">List NFT</Button>
       </Dialog.Trigger>
-      <Dialog.Content maxWidth="250px">
+      <Dialog.Content maxWidth="300px">
         <Dialog.Title>List NFT</Dialog.Title>
         <TextField.Root
           type="number"
@@ -64,22 +64,31 @@ export default function ListNFT({ objectId }: ListNFTProps) {
           onChange={(e) =>
             setPrice(Number((e.target as HTMLInputElement).value))
           }
+          disabled={isPending}
         />
+
+        {status && isSuccess && (
+          <Flex direction={"column"} gap={"2"} mt={"4"}>
+            <Text>
+              Status: <Badge color="green">{status}</Badge>
+            </Text>
+            <Text>NFT listed to the marketpalce.</Text>
+          </Flex>
+        )}
+
         <Flex gap={"2"} mt={"4"} justify={"end"}>
           <Dialog.Close>
             <Button variant="soft" color="gray" style={{ width: "80px" }}>
               Cancel
             </Button>
           </Dialog.Close>
-          <Dialog.Close>
-            <Button
-              style={{ width: "80px" }}
-              onClick={listNFT}
-              disabled={isPending}
-            >
-              {isPending ? <ClipLoader size={20} /> : "List"}
-            </Button>
-          </Dialog.Close>
+          <Button
+            style={{ width: "80px" }}
+            onClick={listNFT}
+            disabled={isPending}
+          >
+            {isPending ? <ClipLoader size={20} /> : "List"}
+          </Button>
         </Flex>
       </Dialog.Content>
     </Dialog.Root>

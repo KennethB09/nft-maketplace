@@ -4,6 +4,7 @@ import { Transaction } from "@mysten/sui/transactions";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useSignAndExecuteTransaction, useSuiClient } from "@mysten/dapp-kit";
 import { useNetworkVariable } from "../utils/networkConfig";
+import { toast } from 'sonner';
 
 type EditDescriptionProps = {
   objectId: string;
@@ -44,6 +45,7 @@ export default function EditDescription({ objectId }: EditDescriptionProps) {
           });
           setStatus(effects?.status.status!);
           setNftDes("");
+          toast.success("NFT edited successfuly.")
         },
       },
     );
@@ -67,12 +69,13 @@ export default function EditDescription({ objectId }: EditDescriptionProps) {
               placeholder="NFT Description"
               value={nftDes}
               onChange={(e) => setNftDes(e.target.value)}
+              disabled={isPending}
             />
           </label>
         </Flex>
 
         {status && isSuccess && (
-          <Flex direction={"column"} gap={"2"}>
+          <Flex direction={"column"} gap={"2"} mt={"4"}>
             <Text>
               Status: <Badge color="green">{status}</Badge>
             </Text>
