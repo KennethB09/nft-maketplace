@@ -157,7 +157,7 @@ export default function Home() {
   }
 
   return (
-    <Flex gap={"4"} direction={"column"} height={"100vh"}>
+    <Flex  direction={"column"} maxHeight={"100vh"}>
       <Toaster richColors/>
 
       <Header />
@@ -166,8 +166,9 @@ export default function Home() {
         style={{
           marginLeft: "15px",
           width: "min-content",
-          height: "40px",
+          minHeight: "40px",
         }}
+        mt={"3"}
         defaultValue="your-nfts"
         onValueChange={(e) => setActiveTab(e as tabs)}
       >

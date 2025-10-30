@@ -10,16 +10,17 @@ export default function Header() {
       px="4"
       py="2"
       justify="between"
+      gap={"3"}
       align={"center"}
       style={{
         borderBottom: "2px solid var(--gray-a2)",
       }}
     >
-      <Box>
+      <Box display={{initial: "none", md: "block"}}>
         <Heading>NFT Marketplace</Heading>
       </Box>
 
-      <Flex gap={"4"} align={"center"}>
+      <Flex justify={{ initial: "end", sm: "start" }} direction={{ initial: "row-reverse", sm: "row" }} gap={"4"} align={"center"} wrap={"wrap"}>
         <Dialog.Root>
           <Dialog.Trigger>
             <Button>Mint NFT</Button>
