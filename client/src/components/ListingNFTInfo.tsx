@@ -61,9 +61,26 @@ export default function ListingNFTInfo({ data, close }: ListingNFTInfoProps) {
   }
 
   return (
-    <Dialog.Content maxWidth="550px" style={{ padding: "0" }}>
-      <Flex gap={"2"}>
-        <Box overflow={"hidden"} width={"50%"}>
+    <Dialog.Content
+      maxHeight={{ initial: "100vh", sm: "fit-content" }}
+      maxWidth={{ initial: "100vw", sm: "550px" }}
+      style={{ padding: "0" }}
+    >
+      <Flex
+        direction={"row"}
+        justify={"between"}
+        p={"3"}
+        style={{
+          borderBottom: "2px solid var(--gray-a2)",
+        }}
+      >
+        <Dialog.Title mb={"0"}>Description</Dialog.Title>
+        <Button variant="ghost" onClick={() => close("listingNFT")}>
+          X
+        </Button>
+      </Flex>
+      <Flex gap={"2"} direction={{ initial: "column", sm: "row" }}>
+        <Box overflow={"hidden"} width={{ initial: "100%", sm: "50%" }}>
           <img
             src={data.content.fields.nft.fields.url}
             style={{ objectFit: "cover" }}
@@ -73,28 +90,15 @@ export default function ListingNFTInfo({ data, close }: ListingNFTInfoProps) {
 
         <Flex
           direction={"column"}
-          width={"50%"}
+          width={{ initial: "100%", sm: "50%" }}
+          py={{ initial: "3", sm: "0" }}
           gap={"2"}
           style={{
             borderLeft: "2px solid var(--gray-a2)",
           }}
         >
-          <Flex
-            direction={"row"}
-            justify={"between"}
-            p={"3"}
-            style={{
-              borderBottom: "2px solid var(--gray-a2)",
-            }}
-          >
-            <Dialog.Title mb={"0"}>Description</Dialog.Title>
-            <Button variant="ghost" onClick={() => close("listingNFT")}>
-              X
-            </Button>
-          </Flex>
-
           {user?.address === data.content.fields.seller && (
-            <Flex gap={"2"} mx={"3"}>
+            <Flex gap={"2"} mx={"3"} pt={{ initial: "0", sm: "3" }}>
               <CancelListing objectId={data.objectId} />
             </Flex>
           )}
@@ -109,7 +113,11 @@ export default function ListingNFTInfo({ data, close }: ListingNFTInfoProps) {
 
           {user?.address !== data.content.fields.seller && (
             <Box px={"3"} mt={"auto"} mb={"3"}>
-              <Button onClick={buyNFT} disabled={isPending} style={{ width: "100%" }}>
+              <Button
+                onClick={buyNFT}
+                disabled={isPending}
+                style={{ width: "100%" }}
+              >
                 Buy NFT
               </Button>
             </Box>

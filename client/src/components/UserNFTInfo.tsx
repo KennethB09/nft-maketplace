@@ -12,9 +12,26 @@ type UserNFTInfoProps = {
 export default function UserNFTInfo({ data, close }: UserNFTInfoProps) {
   // console.log("usernft", data)
   return (
-    <Dialog.Content maxWidth="550px" style={{ padding: "0" }}>
-      <Flex>
-        <Box overflow={"hidden"} width={"50%"}>
+    <Dialog.Content
+      maxHeight={{ initial: "100vh", sm: "fit-content" }}
+      maxWidth={{ initial: "100vw", sm: "550px" }}
+      style={{ padding: "0" }}
+    >
+      <Flex
+        direction={"row"}
+        justify={"between"}
+        p={"3"}
+        style={{
+          borderBottom: "2px solid var(--gray-a2)",
+        }}
+      >
+        <Dialog.Title mb={"0"}>Description</Dialog.Title>
+        <Button variant="ghost" onClick={() => close("userNFT")}>
+          X
+        </Button>
+      </Flex>
+      <Flex direction={{ initial: "column", sm: "row" }}>
+        <Box overflow={"hidden"} width={{ initial: "100%", sm: "50%" }}>
           <img
             src={data.content.fields.url}
             style={{ objectFit: "cover" }}
@@ -24,27 +41,14 @@ export default function UserNFTInfo({ data, close }: UserNFTInfoProps) {
 
         <Flex
           direction={"column"}
-          width={"50%"}
+          width={{ initial: "100%", sm: "50%" }}
+          py={{ initial: "3", sm: "0"}}
           gap={"2"}
           style={{
             borderLeft: "2px solid var(--gray-a2)",
           }}
         >
-          <Flex
-            direction={"row"}
-            justify={"between"}
-            p={"3"}
-            style={{
-              borderBottom: "2px solid var(--gray-a2)",
-            }}
-          >
-            <Dialog.Title mb={"0"}>Description</Dialog.Title>
-            <Button variant="ghost" onClick={() => close("userNFT")}>
-              X
-            </Button>
-          </Flex>
-
-          <Flex gap={"1"} px={"3"} justify={"end"}>
+          <Flex gap={"1"} px={"3"} justify={{ initial: "center", sm: "end" }} pt={{ initial: "0", sm: "3" }}>
             <ListNFT objectId={data.objectId} />
 
             <EditDescription objectId={data.objectId} />

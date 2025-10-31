@@ -67,7 +67,7 @@ export default function Mint({}: MintProp) {
   }
 
   return (
-    <Dialog.Content maxWidth="450px">
+    <Dialog.Content maxWidth={{ initial: "100vw", sm: "450px" }}>
       <Dialog.Title>Mint NFT</Dialog.Title>
       <Dialog.Description hidden>Mint a NFT.</Dialog.Description>
 

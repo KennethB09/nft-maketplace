@@ -132,7 +132,7 @@ export default function WithdrawFees() {
           </Box>
         </Flex>
       </Dialog.Trigger>
-      <Dialog.Content width={"400px"}>
+      <Dialog.Content maxWidth={{ initial: "100vw", sm: "400px" }}>
         <Dialog.Title>Withdraw NFT Fees</Dialog.Title>
         <Dialog.Description>
           Withdraw earned marketplace fees.<br />
